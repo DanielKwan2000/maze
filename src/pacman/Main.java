@@ -26,16 +26,18 @@ public class Main {
             System.out.println("------------------");
             //0 for wall 1 for path
             char[][] pathExists = breakfast(a, start_x, start_y, end_x, end_y);
+            for (int i = 0; i < pathExists.length; i++)
+                System.out.println(Arrays.toString(pathExists[i]));
 
 
-
-            System.out.println(pathExists);
         }
 
         public static char[][] breakfast(char[][] matrix, int start_x, int  start_y, int end_x, int end_y) {
             //System.out.println(matrix.length);
             //how many rows it has
             int N = matrix.length;
+
+            int count =0;
 
             List<Node> queue = new ArrayList<Node>();
             queue.add(new Node(start_x, start_y)); //insert starting position node <- want to mark visited and check neighbours
@@ -48,41 +50,43 @@ public class Main {
                     pathExists = true;
                     break;
                 }
-
-                matrix[current.x][current.y] = 'h'; // mark as visited
+                count ++;
+                System.out.println(current.x + current.y);
+                matrix[current.x][current.y] = 'v'; // mark as visited
 
                 List<Node> neighbors = getNeighbors(matrix, current); //now we check neighbours, pass current node
                 queue.addAll(neighbors);
             }
-
+            System.out.println(count);
             return matrix;
         }
 
         public static List<Node> getNeighbors(char[][] matrix, Node current) {
             List<Node> neighbors = new ArrayList<Node>(); //create list of neighbours
-            //up
-            if(isValid(matrix, current.x - 1, current.y)) {
-                neighbors.add(new Node(current.x - 1, current.y));
-            }
             //down
             if(isValid(matrix, current.x + 1, current.y)) {
                 neighbors.add(new Node(current.x + 1, current.y));
             }
-            //left
-            if(isValid(matrix, current.x, current.y - 1)) {
-                neighbors.add(new Node(current.x, current.y - 1));
+            //up
+            if(isValid(matrix, current.x - 1, current.y)) {
+                neighbors.add(new Node(current.x - 1, current.y));
             }
             //right
             if(isValid(matrix, current.x, current.y + 1)) {
                 neighbors.add(new Node(current.x, current.y + 1));
             }
+            //left
+            if(isValid(matrix, current.x, current.y - 1)) {
+                neighbors.add(new Node(current.x, current.y - 1));
+            }
+
 
             return neighbors;
         }
         //pass matrix and the coords
         public static boolean isValid(char[][] matrix, int x, int y) {
 
-            return !(x < 0 || x >= matrix.length || y < 0 || y >= matrix.length) && (matrix[x][y] != 'h');
+            return !(x < 0 || x >= matrix.length || y < 0 || y >= matrix.length) && (matrix[x][y] != 'v') && (matrix[x][y] != '0');
             //x and y pos can't be negative , out of bounds and can't be greater than length of matrix
         }
 
