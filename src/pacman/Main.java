@@ -25,12 +25,14 @@ public class Main {
 
             System.out.println("------------------");
             //0 for wall 1 for path
-            boolean pathExists = breakfast(a, start_x, start_y, end_x, end_y);
+            char[][] pathExists = breakfast(a, start_x, start_y, end_x, end_y);
+
+
 
             System.out.println(pathExists);
         }
 
-        public static boolean breakfast(char[][] matrix, int start_x, int  start_y, int end_x, int end_y) {
+        public static char[][] breakfast(char[][] matrix, int start_x, int  start_y, int end_x, int end_y) {
             //System.out.println(matrix.length);
             //how many rows it has
             int N = matrix.length;
@@ -47,13 +49,13 @@ public class Main {
                     break;
                 }
 
-                matrix[current.x][current.y] = '0'; // mark as visited
+                matrix[current.x][current.y] = 'h'; // mark as visited
 
                 List<Node> neighbors = getNeighbors(matrix, current); //now we check neighbours, pass current node
                 queue.addAll(neighbors);
             }
 
-            return pathExists;
+            return matrix;
         }
 
         public static List<Node> getNeighbors(char[][] matrix, Node current) {
@@ -80,10 +82,8 @@ public class Main {
         //pass matrix and the coords
         public static boolean isValid(char[][] matrix, int x, int y) {
 
-            return !(x < 0 || x >= matrix.length || y < 0 || y >= matrix.length) && (matrix[x][y] != '0');
+            return !(x < 0 || x >= matrix.length || y < 0 || y >= matrix.length) && (matrix[x][y] != 'h');
             //x and y pos can't be negative , out of bounds and can't be greater than length of matrix
         }
-
-
 
 }

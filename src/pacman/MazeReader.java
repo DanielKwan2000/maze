@@ -22,7 +22,7 @@ public class MazeReader{
 
             String l;
             int x_index = 0;
-
+            //just x counter
             while ((l = a.readLine()) != null) {
                 //position for 2d array
                 for (int i = 0; i < l.length(); i++) {
