@@ -13,30 +13,36 @@ public class Main {
         {
             //char[][] a = MazeReader.arr;
             MazeReader b = new MazeReader();
-            char[][] a= b.getArr();
+            char[][] a = b.getArr();
+            int start_x = b.getStart_x();
+            int start_y = b.getStart_y();
+            int end_x = b.getEnd_x();
+            int end_y = b.getEnd_y();
+            //importing the starting and ending positions to check goal state.
 
             for (int i = 0; i < a.length; i++)
                 System.out.println(Arrays.toString(a[i]));
 
+            System.out.println("------------------");
             //0 for wall 1 for path
-            boolean pathExists = breakfast(a);
+            boolean pathExists = breakfast(a, start_x, start_y, end_x, end_y);
 
-            System.out.println(pathExists ? "YES" : "NO");
+            System.out.println(pathExists);
         }
 
-        public static boolean breakfast(char[][] matrix) {
+        public static boolean breakfast(char[][] matrix, int start_x, int  start_y, int end_x, int end_y) {
             //System.out.println(matrix.length);
             //how many rows it has
             int N = matrix.length;
 
             List<Node> queue = new ArrayList<Node>();
-            queue.add(new Node(35, 1)); //insert starting position node <- want to mark visited and check neighbours
+            queue.add(new Node(start_x, start_y)); //insert starting position node <- want to mark visited and check neighbours
             boolean pathExists = false;
 
             while(!queue.isEmpty()) { //not empty
                 Node current = queue.remove(0); //dequeue first
 
-                if(matrix[current.x][current.y] == 'X') {
+                if(matrix[current.x][current.y] ==  matrix[end_x][end_y]) {
                     pathExists = true;
                     break;
                 }
@@ -77,5 +83,7 @@ public class Main {
             return !(x < 0 || x >= matrix.length || y < 0 || y >= matrix.length) && (matrix[x][y] != '0');
             //x and y pos can't be negative , out of bounds and can't be greater than length of matrix
         }
+
+
 
 }

@@ -9,6 +9,8 @@ import java.util.*;
 public class MazeReader{
     public static int start_x = 0; //starting x pos
     public static int start_y = 0; //starting y pos for big maze.txt
+    public static int end_x = 0; //ending x pos
+    public static int end_y = 0; //ending y pos
     public static char[][] arr = new char[37][37];
 
     public MazeReader() {
@@ -28,6 +30,8 @@ public class MazeReader{
                     if (l.charAt(i) == '%') {
                         arr[x_index][i] = '0';
                     } else if (l.charAt(i) == 'P') {
+                        end_x = x_index;
+                        end_y = i;
                         arr[x_index][i] = 'X';
                     } else if (l.charAt(i) == '.') {
                         arr[x_index][i] = 'S';
@@ -57,6 +61,12 @@ public class MazeReader{
     }
     public static int getStart_y(){
         return start_y;
+    }
+    public static int getEnd_x(){
+        return end_x;
+    }
+    public static int getEnd_y(){
+        return end_y;
     }
 }
 
