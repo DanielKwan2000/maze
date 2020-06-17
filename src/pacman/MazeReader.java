@@ -3,18 +3,22 @@ package pacman;
  * text maze reader to translate symbols and spaces into 2D array for BFS implementation
  */
 
-//line count big = 37
+import pacman.fileCount;
 import java.io.*;
 import java.util.*;
+
 public class MazeReader{
     public static int start_x = 0; //starting x pos
     public static int start_y = 0; //starting y pos for big maze.txt
     public static int end_x = 0; //ending x pos
     public static int end_y = 0; //ending y pos
-    public static char[][] arr = new char[37][37];
+    public static fileCount filecounter = new fileCount("src/pacman/bigMaze.txt");
+
+    public static char[][] arr = new char[filecounter.getR()][filecounter.getC()];
 
     public MazeReader() {
         try {
+
             //read file into 2D array for position x,y
             File file = new File("src/pacman/bigMaze.txt");
 
