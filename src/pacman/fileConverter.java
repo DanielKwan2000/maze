@@ -29,7 +29,7 @@ public class fileConverter {
                 }
                 builder.append("\n");//append new line at the end of the row
             }
-            BufferedWriter writer = new BufferedWriter(new FileWriter("haha.txt"));
+            BufferedWriter writer = new BufferedWriter(new FileWriter("solution.txt"));
             writer.write(builder.toString());//save the string representation of the board
             writer.close();
     }
