@@ -7,17 +7,20 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class fileCount {
+    //rows and columns of file
     public static int r = 0;
     public static int c = 0;
-    public fileCount(String file){
+    public fileCount(String file){//pass string file txt
         try {
             BufferedReader reader = new BufferedReader(new FileReader(file));
             while(reader.readLine() != null){
 
                 r++;
             }
+            //get first line length
             String firstLine = Files.readAllLines(Paths.get(file)).get(0);
             c = firstLine.length();
+            //check
             System.out.println("row: " + r);
             System.out.println("col: "+ c);
             reader.close();
@@ -27,7 +30,7 @@ public class fileCount {
         }
 
     }
-
+    //get methods
     public int getR(){
         return r;
     }

@@ -12,15 +12,17 @@ public class MazeReader{
     public static int start_y = 0; //starting y pos for big maze.txt
     public static int end_x = 0; //ending x pos
     public static int end_y = 0; //ending y pos
-    public static fileCount filecounter = new fileCount("src/pacman/bigMaze.txt");
 
-    public static char[][] arr = new char[filecounter.getR()][filecounter.getC()];
 
-    public MazeReader() {
+    public static char[][] arr = new char[0][0];
+
+    public MazeReader(String file_name) {
         try {
-
+            //initialize instance for filecounter and pass file name to get dimensions of 2d array
+            fileCount filecounter = new fileCount(file_name);
+            arr = new char[filecounter.getR()][filecounter.getC()];
             //read file into 2D array for position x,y
-            File file = new File("src/pacman/bigMaze.txt");
+            File file = new File(file_name);
 
             BufferedReader a = new BufferedReader(new FileReader(file));
 
@@ -30,7 +32,7 @@ public class MazeReader{
             while ((l = a.readLine()) != null) {
                 //position for 2d array
                 for (int i = 0; i < l.length(); i++) {
-
+                    //translate file into 2d array with all 0s 1s X <-destination  and S <-start
                     if (l.charAt(i) == '%') {
                         arr[x_index][i] = '0';
                     } else if (l.charAt(i) == 'P') {
