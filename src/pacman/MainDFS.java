@@ -3,17 +3,15 @@ package pacman;
  * Testing BFS for bigMaze.txt
  */
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import pacman.*;
-public class Main {
+public class MainDFS {
 
     public static void main(String args[])
     {   int nodes_explored = 0;
         //char[][] a = MazeReader.arr;
-        MazeReader b = new MazeReader("src/pacman/bigMaze.txt");
+        MazeReader b = new MazeReader("src/pacman/mediumMaze.txt");
         //constructor
 
 
@@ -30,7 +28,7 @@ public class Main {
         System.out.println("------------------");
         //0 for wall 1 for path
         int x_a = 0;
-        char[][] pathExists = breakfast(a, start_x, start_y, end_x, end_y);
+        char[][] pathExists = depth_first_search(a, start_x, start_y, end_x, end_y);
 
         for(int i = 0; i < pathExists.length; i++){
             System.out.println(Arrays.toString(pathExists[i]));
@@ -42,20 +40,21 @@ public class Main {
 
     }
 
-    public static char[][] breakfast(char[][] matrix, int start_x, int  start_y, int end_x, int end_y) {
+    public static char[][] depth_first_search(char[][] matrix, int start_x, int  start_y, int end_x, int end_y) {
         //System.out.println(matrix.length);
         //how many rows it has
         int N = matrix.length;
 
         int count = 0;
 
-        List<Node> queue = new ArrayList<Node>();
-        queue.add(new Node(start_x, start_y, null)); //insert starting position node <- want to mark visited and check neighbours
+        Stack<Node> stack = new Stack<Node>();
+        stack.push(new Node(start_x, start_y, null)); //insert starting position node <- want to mark visited and check neighbours
         boolean pathExists = false;
 
-        while(!queue.isEmpty()) { //not empty
-            Node current = queue.remove(0); //dequeue first
+        while(!stack.isEmpty()) { //not empty
+            Node current = stack.peek(); //dequeue first
             //just to see the path
+            stack.pop();
             if(matrix[current.x][current.y] ==  matrix[end_x][end_y]) {
                 pathExists = true;
                 while(current.prev != null){
@@ -69,15 +68,17 @@ public class Main {
 
             matrix[current.x][current.y] = '0'; // mark as visited
 
-            List<Node> neighbors = getNeighbors(matrix, current); //now we check neighbours, pass current node
-            queue.addAll(neighbors);
+            Collection<Node> neighbors = getNeighbors(matrix, current); //now we check neighbours, pass current node
+
+            stack.addAll(neighbors);
         }
         System.out.println(count);
+
         return matrix;
     }
 
-    public static List<Node> getNeighbors(char[][] matrix, Node current) {
-        List<Node> neighbors = new ArrayList<Node>(); //create list of neighbours
+    public static Collection<Node> getNeighbors(char[][] matrix, Node current) {
+        Collection<Node> neighbors = new Stack<Node>(); //create list of neighbours
         //down
         if(isValid(matrix, current.x + 1, current.y)) {
             neighbors.add(new Node(current.x + 1, current.y,current));
@@ -95,7 +96,6 @@ public class Main {
             neighbors.add(new Node(current.x, current.y - 1,current));
         }
 
-
         return neighbors;
     }
     //pass matrix and the coords
@@ -104,5 +104,7 @@ public class Main {
         return !(x < 0 || x >= matrix.length || y < 0 || y >= matrix.length) && (matrix[x][y] != '0');
         //x and y pos can't be negative , out of bounds and can't be greater than length of matrix
     }
+
+
 
 }
