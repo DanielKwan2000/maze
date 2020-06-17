@@ -10,7 +10,7 @@ import pacman.Node;
 public class Main {
 
         public static void main(String args[])
-        {
+        {   int real =0;
             //char[][] a = MazeReader.arr;
             MazeReader b = new MazeReader();
             char[][] a = b.getArr();
@@ -25,10 +25,16 @@ public class Main {
 
             System.out.println("------------------");
             //0 for wall 1 for path
+            int x_a = 0;
             char[][] pathExists = breakfast(a, start_x, start_y, end_x, end_y);
-            for (int i = 0; i < pathExists.length; i++)
-                System.out.println(Arrays.toString(pathExists[i]));
 
+            for(int i = 0; i < pathExists.length; i++){
+                System.out.println(Arrays.toString(pathExists[i]));
+                for(int j =0; j< pathExists.length; j++){
+                    if(pathExists[i][j] == 'v') real++;
+                }
+            }
+            System.out.println("Explored nodes: " + real);
 
         }
 
@@ -50,8 +56,8 @@ public class Main {
                     pathExists = true;
                     break;
                 }
-                count ++;
-                System.out.println(current.x + current.y);
+                count ++; //to keep track of movements
+
                 matrix[current.x][current.y] = 'v'; // mark as visited
 
                 List<Node> neighbors = getNeighbors(matrix, current); //now we check neighbours, pass current node
@@ -85,7 +91,7 @@ public class Main {
         }
         //pass matrix and the coords
         public static boolean isValid(char[][] matrix, int x, int y) {
-
+            //not visited and not wall
             return !(x < 0 || x >= matrix.length || y < 0 || y >= matrix.length) && (matrix[x][y] != 'v') && (matrix[x][y] != '0');
             //x and y pos can't be negative , out of bounds and can't be greater than length of matrix
         }
