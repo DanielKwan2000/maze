@@ -43,7 +43,8 @@ public class MazeReader{
                         arr[x_index][i] = 'S';
                         start_x = x_index;
                         start_y = i;
-                    } else {
+                    }
+                    else {
                         arr[x_index][i] = '1';
                     }
                 }

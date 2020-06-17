@@ -1,6 +1,7 @@
 package pacman;
 /*
- * Testing BFS for bigMaze.txt
+ * Testing DFS for maze
+ * 0s are walls 1s are paths
  */
 
 import java.util.*;
@@ -10,8 +11,9 @@ public class MainDFS {
 
     public static void main(String args[])
     {   int nodes_explored = 0;
+        int path_length = 0;
         //char[][] a = MazeReader.arr;
-        MazeReader b = new MazeReader("src/pacman/mediumMaze.txt");
+        MazeReader b = new MazeReader("src/pacman/bigMaze.txt");
         //constructor
 
 
@@ -27,21 +29,25 @@ public class MainDFS {
 
         System.out.println("------------------");
         //0 for wall 1 for path
-        int x_a = 0;
-        char[][] pathExists = depth_first_search(a, start_x, start_y, end_x, end_y);
 
-        for(int i = 0; i < pathExists.length; i++){
-            System.out.println(Arrays.toString(pathExists[i]));
-            for(int j =0; j< pathExists.length; j++){
-                if(pathExists[i][j] == 'P') nodes_explored++;
+        char[][] path = depth_first_search(a, start_x, start_y, end_x, end_y);
+
+        //just to count nodes explored and path length
+        for(int i = 0; i < path.length; i++){
+            System.out.println(Arrays.toString(path[i]));
+            for(int j =0; j< path.length; j++){
+                if(path[i][j] == 'P'){ path_length++; nodes_explored ++;}
+                else if(path[i][j] == 'V') nodes_explored ++;
             }
         }
         System.out.println("Explored nodes: " + nodes_explored);
+        System.out.println("Path length: " + path_length);
+        /*------------------------------------------------*/
 
     }
 
     public static char[][] depth_first_search(char[][] matrix, int start_x, int  start_y, int end_x, int end_y) {
-        //System.out.println(matrix.length);
+
         //how many rows it has
         int N = matrix.length;
 
@@ -66,7 +72,7 @@ public class MainDFS {
             }
             count ++; //to keep track of movements for testing purposes
 
-            matrix[current.x][current.y] = '0'; // mark as visited
+            matrix[current.x][current.y] = 'V'; // mark as visited
 
             Collection<Node> neighbors = getNeighbors(matrix, current); //now we check neighbours, pass current node
 
@@ -79,10 +85,6 @@ public class MainDFS {
 
     public static Collection<Node> getNeighbors(char[][] matrix, Node current) {
         Collection<Node> neighbors = new Stack<Node>(); //create list of neighbours
-        //down
-        if(isValid(matrix, current.x + 1, current.y)) {
-            neighbors.add(new Node(current.x + 1, current.y,current));
-        }
         //up
         if(isValid(matrix, current.x - 1, current.y)) {
             neighbors.add(new Node(current.x - 1, current.y,current));
@@ -90,6 +92,10 @@ public class MainDFS {
         //right
         if(isValid(matrix, current.x, current.y + 1)) {
             neighbors.add(new Node(current.x, current.y + 1,current));
+        }
+        //down
+        if(isValid(matrix, current.x + 1, current.y)) {
+            neighbors.add(new Node(current.x + 1, current.y,current));
         }
         //left
         if(isValid(matrix, current.x, current.y - 1)) {
@@ -101,7 +107,7 @@ public class MainDFS {
     //pass matrix and the coords
     public static boolean isValid(char[][] matrix, int x, int y) {
         //not visited and not wall
-        return !(x < 0 || x >= matrix.length || y < 0 || y >= matrix.length) && (matrix[x][y] != '0');
+        return !(x < 0 || x >= matrix.length || y < 0 || y >= matrix.length) && (matrix[x][y] != '0') && (matrix[x][y] != 'V');
         //x and y pos can't be negative , out of bounds and can't be greater than length of matrix
     }
 
