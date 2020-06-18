@@ -1,6 +1,6 @@
 package pacman;
 /*
- * java class which counts columns and rows of file
+ * java class which counts columns and rows of file to put send to maze reader for 2d array
  */
 import java.io.*;
 import java.nio.file.Files;

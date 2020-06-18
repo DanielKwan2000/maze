@@ -33,6 +33,7 @@ public class fileConverter {
             }
             builder.append("Explored nodes: "+explored + "\n");
             builder.append("Path length: "+length + "\n");
+
             BufferedWriter writer = new BufferedWriter(new FileWriter("solution.txt"));
             writer.write(builder.toString());
             writer.close();
