@@ -2,6 +2,7 @@ package pacman;
 /*
  * Main method for running DFS
  * 0s are walls 1s are paths
+ * Please enter maze file in the MazeReader below
  */
 
 import java.util.*;
@@ -13,8 +14,8 @@ public class MainDFS {
     {   int nodes_explored = 0;
         int path_length = 0;
 
+        //this is where you insert maze
         MazeReader b = new MazeReader("src/pacman/bigMaze.txt");
-
 
 
         char[][] a = b.getArr();
@@ -77,7 +78,7 @@ public class MainDFS {
 
         return matrix;
     }
-
+    //using a collection
     public static Collection<Node> getNeighbors(char[][] matrix, Node current) {
         Collection<Node> neighbors = new Stack<Node>(); //create list of neighbours
         //up

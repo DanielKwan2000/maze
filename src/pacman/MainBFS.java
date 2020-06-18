@@ -2,6 +2,7 @@ package pacman;
 /*
  * Main method for running BFS
  * 0s are walls 1s are path
+ * Please enter maze file in the MazeReader below
  */
 
 import java.util.ArrayList;
@@ -45,6 +46,7 @@ public class MainBFS {
         /*----------------------------------------------*/
 
         fileConverter solution = new fileConverter(path,nodes_explored,path_length);
+        //just converts our solution back into file
 
     }
 
@@ -58,7 +60,7 @@ public class MainBFS {
 
         while(!queue.isEmpty()) { //not empty
             Node current = queue.remove(0); //dequeue first
-            //just to see the path
+
             if(matrix[current.x][current.y] ==  'E') {
 
                 while(current.prev != null){
@@ -66,19 +68,19 @@ public class MainBFS {
                     matrix[current.prev.x][current.prev.y] = 'P';
                     current = current.prev;
                 }
-                break;
+                break; //since we got the path break everything
             }
 
             matrix[current.x][current.y] = 'V'; // mark as visited
 
-            List<Node> neighbors = getNeighbors(matrix, current); //now we check neighbours, pass current node
+            List<Node> neighbors = getNeighbors(matrix, current); //now we check neighbours, pass current node as parent
 
-            queue.addAll(neighbors);
+            queue.addAll(neighbors); //adds all neighbours into queue
         }
 
         return matrix;
     }
-
+    //uses list of nodes to get neighbours
     public static List<Node> getNeighbors(char[][] matrix, Node current) {
 
         List<Node> neighbors = new ArrayList<Node>(); //create list of neighbours
