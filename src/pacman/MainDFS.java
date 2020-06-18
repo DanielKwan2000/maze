@@ -42,7 +42,7 @@ public class MainDFS {
         System.out.println("Path length: " + path_length);
         /*------------------------------------------------*/
 
-        fileConverter lol = new fileConverter(path,nodes_explored,path_length);
+        fileConverter solution = new fileConverter(path,nodes_explored,path_length);
 
     }
 
