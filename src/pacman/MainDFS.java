@@ -55,7 +55,7 @@ public class MainDFS {
         stack.push(new Node(start_x, start_y, null)); //insert starting position node <- want to mark visited and check neighbours
 
         while(!stack.isEmpty()) { //not empty
-            Node current = stack.peek(); //dequeue first
+            Node current = stack.peek(); //peek first
             //just to see the path
             stack.pop();
             if(matrix[current.x][current.y] ==  'E') {//once it reaches end
@@ -89,6 +89,7 @@ public class MainDFS {
         if(isValid(matrix, current.x, current.y - 1)) {
             neighbors.add(new Node(current.x, current.y - 1,current));
         }
+
         //right
         if(isValid(matrix, current.x, current.y + 1)) {
             neighbors.add(new Node(current.x, current.y + 1,current));
