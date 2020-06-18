@@ -1,6 +1,6 @@
 package pacman;
 /*
- * Testing BFS for bigMaze.txt
+ * Main method for running BFS
  * 0s are walls 1s are path
  */
 
@@ -14,10 +14,10 @@ public class MainBFS {
     public static void main(String args[])
     {   int nodes_explored = 0;
         int path_length = 0;
-        //char[][] a = MazeReader.arr;
+
+        //this is where you insert maze
         MazeReader b = new MazeReader("src/pacman/bigMaze.txt");
 
-        //constructor
 
 
         char[][] a = b.getArr();
@@ -30,11 +30,7 @@ public class MainBFS {
         for (int i = 0; i < a.length; i++)
             System.out.println(Arrays.toString(a[i]));
 
-        System.out.println("------------------");
-        //0 for wall 1 for path
-
-
-        char[][] path = breakfast_search(a, start_x, start_y, end_x, end_y);
+        char[][] path = breakfast_search(a, start_x, start_y);
 
         //this just counts nodes explored and length of path
         for(int i = 0; i < path.length; i++){
@@ -48,47 +44,43 @@ public class MainBFS {
         System.out.println("Path length: " + path_length);
         /*----------------------------------------------*/
 
-        fileConverter lol = new fileConverter(path);
-
-
+        fileConverter solution = new fileConverter(path,nodes_explored,path_length);
 
     }
 
-    public static char[][] breakfast_search(char[][] matrix, int start_x, int  start_y, int end_x, int end_y) {
-        //System.out.println(matrix.length);
+    public static char[][] breakfast_search(char[][] matrix, int start_x, int  start_y) {
+
         //how many rows it has
         int N = matrix.length;
 
-        int count = 0;
-
         List<Node> queue = new ArrayList<Node>();
         queue.add(new Node(start_x, start_y, null)); //insert starting position node <- want to mark visited and check neighbours
-        boolean pathExists = false; //just additional implementation to check if path exists, may be useful
 
         while(!queue.isEmpty()) { //not empty
             Node current = queue.remove(0); //dequeue first
             //just to see the path
-            if(matrix[current.x][current.y] ==  matrix[end_x][end_y]) {
-                pathExists = true;
+            if(matrix[current.x][current.y] ==  'E') {
+
                 while(current.prev != null){
-                    System.out.println( current.prev.x + " " + current.prev.y);
+                    System.out.println( "[" +current.prev.x + "," + current.prev.y +"]");
                     matrix[current.prev.x][current.prev.y] = 'P';
                     current = current.prev;
                 }
                 break;
             }
-            count ++; //to keep track of movements for testing purposes
 
             matrix[current.x][current.y] = 'V'; // mark as visited
 
             List<Node> neighbors = getNeighbors(matrix, current); //now we check neighbours, pass current node
+
             queue.addAll(neighbors);
         }
-        System.out.println(count);
+
         return matrix;
     }
 
     public static List<Node> getNeighbors(char[][] matrix, Node current) {
+
         List<Node> neighbors = new ArrayList<Node>(); //create list of neighbours
         //down
         if(isValid(matrix, current.x + 1, current.y)) {
@@ -106,7 +98,6 @@ public class MainBFS {
         if(isValid(matrix, current.x, current.y - 1)) {
             neighbors.add(new Node(current.x, current.y - 1,current));
         }
-
 
         return neighbors;
     }

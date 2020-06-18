@@ -1,6 +1,6 @@
 package pacman;
 /*
- * Testing DFS for maze
+ * Main method for running DFS
  * 0s are walls 1s are paths
  */
 
@@ -12,9 +12,9 @@ public class MainDFS {
     public static void main(String args[])
     {   int nodes_explored = 0;
         int path_length = 0;
-        //char[][] a = MazeReader.arr;
+
         MazeReader b = new MazeReader("src/pacman/bigMaze.txt");
-        //constructor
+
 
 
         char[][] a = b.getArr();
@@ -27,10 +27,7 @@ public class MainDFS {
         for (int i = 0; i < a.length; i++)
             System.out.println(Arrays.toString(a[i]));
 
-        System.out.println("------------------");
-        //0 for wall 1 for path
-
-        char[][] path = depth_first_search(a, start_x, start_y, end_x, end_y);
+        char[][] path = depth_first_search(a, start_x, start_y);
 
         //just to count nodes explored and path length
         for(int i = 0; i < path.length; i++){
@@ -44,33 +41,32 @@ public class MainDFS {
         System.out.println("Path length: " + path_length);
         /*------------------------------------------------*/
 
+        fileConverter lol = new fileConverter(path,nodes_explored,path_length);
+
     }
 
-    public static char[][] depth_first_search(char[][] matrix, int start_x, int  start_y, int end_x, int end_y) {
+    public static char[][] depth_first_search(char[][] matrix, int start_x, int  start_y) {
 
         //how many rows it has
         int N = matrix.length;
 
-        int count = 0;
-
         Stack<Node> stack = new Stack<Node>();
         stack.push(new Node(start_x, start_y, null)); //insert starting position node <- want to mark visited and check neighbours
-        boolean pathExists = false;
 
         while(!stack.isEmpty()) { //not empty
             Node current = stack.peek(); //dequeue first
             //just to see the path
             stack.pop();
-            if(matrix[current.x][current.y] ==  matrix[end_x][end_y]) {
-                pathExists = true;
+            if(matrix[current.x][current.y] ==  'E') {//once it reaches end
+
                 while(current.prev != null){
-                    System.out.println( current.prev.x + " " + current.prev.y);
+                    System.out.println("[" + current.prev.x + "," + current.prev.y +"]");
                     matrix[current.prev.x][current.prev.y] = 'P';
                     current = current.prev;
                 }
                 break;
             }
-            count ++; //to keep track of movements for testing purposes
+
 
             matrix[current.x][current.y] = 'V'; // mark as visited
 
@@ -78,7 +74,6 @@ public class MainDFS {
 
             stack.addAll(neighbors);
         }
-        System.out.println(count);
 
         return matrix;
     }
@@ -89,6 +84,10 @@ public class MainDFS {
         if(isValid(matrix, current.x - 1, current.y)) {
             neighbors.add(new Node(current.x - 1, current.y,current));
         }
+        //left
+        if(isValid(matrix, current.x, current.y - 1)) {
+            neighbors.add(new Node(current.x, current.y - 1,current));
+        }
         //right
         if(isValid(matrix, current.x, current.y + 1)) {
             neighbors.add(new Node(current.x, current.y + 1,current));
@@ -97,10 +96,7 @@ public class MainDFS {
         if(isValid(matrix, current.x + 1, current.y)) {
             neighbors.add(new Node(current.x + 1, current.y,current));
         }
-        //left
-        if(isValid(matrix, current.x, current.y - 1)) {
-            neighbors.add(new Node(current.x, current.y - 1,current));
-        }
+
 
         return neighbors;
     }
@@ -110,7 +106,5 @@ public class MainDFS {
         return !(x < 0 || x >= matrix.length || y < 0 || y >= matrix.length) && (matrix[x][y] != '0') && (matrix[x][y] != 'V');
         //x and y pos can't be negative , out of bounds and can't be greater than length of matrix
     }
-
-
 
 }

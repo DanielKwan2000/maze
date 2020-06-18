@@ -38,7 +38,7 @@ public class MazeReader{
                     } else if (l.charAt(i) == 'P') {
                         end_x = x_index;
                         end_y = i;
-                        arr[x_index][i] = 'X';
+                        arr[x_index][i] = 'E';
                     } else if (l.charAt(i) == '.') {
                         arr[x_index][i] = 'S';
                         start_x = x_index;
