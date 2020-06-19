@@ -31,7 +31,7 @@ public class MainBFS {
         for (int i = 0; i < a.length; i++)
             System.out.println(Arrays.toString(a[i]));
 
-        char[][] path = breakfast_search(a, start_x, start_y);
+        char[][] path = breadthfirst_search(a, start_x, start_y);
 
         //this just counts nodes explored and length of path
         for(int i = 0; i < path.length; i++){
@@ -50,7 +50,7 @@ public class MainBFS {
 
     }
 
-    public static char[][] breakfast_search(char[][] matrix, int start_x, int  start_y) {
+    public static char[][] breadthfirst_search(char[][] matrix, int start_x, int  start_y) {
 
         //how many rows it has
         int N = matrix.length;
